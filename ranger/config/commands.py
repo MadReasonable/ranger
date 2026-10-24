@@ -765,7 +765,7 @@ class delete(Command):
         confirm = self.fm.settings.confirm_on_delete
         if confirm != 'never' and (confirm != 'multiple' or many_files):
             self.fm.ui.console.ask(
-                "Confirm deletion of: %s (y/N)" % ', '.join(files),
+                "Confirm deletion of %s items: %s (y/N)" % (len(files), ', '.join(files)),
                 partial(self._question_callback, files),
                 ('n', 'N', 'y', 'Y'),
             )
@@ -831,7 +831,7 @@ class trash(Command):
 
         if confirm != 'never' and (confirm != 'multiple' or many_files):
             self.fm.ui.console.ask(
-                "Confirm deletion of: %s (y/N)" % ', '.join(file_names),
+                "Confirm deletion of %s items: %s (y/N)" % (len(files), ', '.join(file_names)),
                 partial(self._question_callback, files),
                 ('n', 'N', 'y', 'Y'),
             )
@@ -1228,7 +1228,7 @@ class chmod(Command):
 
 
 class bulkrename(Command):
-    """:bulkrename
+    """:bulkrename [-FLAGS...]
 
     This command opens a list of selected files in an external editor.
     After you edit and save the file, it will generate a shell script

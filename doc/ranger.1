@@ -131,9 +131,10 @@ Create copies of the default configuration files in your local configuration
 directory.  Existing ones will not be overwritten.  Possible values: \fIall\fR,
 \&\fIcommands\fR, \fIcommands_full\fR, \fIrc\fR, \fIrifle\fR, \fIscope\fR.
 .Sp
-Note: You may want to disable loading of the global configuration files by
-exporting \fIRANGER_LOAD_DEFAULT_RC=FALSE\fR in your environment.  See also:
-\&\fBFILES\fR, \fBENVIRONMENT\fR
+Note: You can disable loading of the global \fIrc.conf\fR by exporting
+\&\fIRANGER_LOAD_DEFAULT_RC=FALSE\fR in your environment. Only do so if your
+configuration is complete, as settings that are not specified will be
+undefined. See also: \fB\s-1FILES\s0\fR, \fB\s-1ENVIRONMENT\s0\fR
 .Sp
 \&\-\-copy\-config=\fBcommands\fR will copy only a small sample configuration file with
 a thoroughly commented example.  It is recommended to keep this file tidy to
@@ -1081,6 +1082,9 @@ the content.
 .IX Item "relative_current_zero [bool]"
 When line_numbers is set to relative, show 0 on the current line if
 true or show the absolute number of the current line when false.
+.IP "renumber_tabs_on_tab_close [bool]" 4
+.IX Item "renumber_tabs_on_tab_close [bool]"
+After closing a tab the tabs will automatically renumber if true.
 .IP "save_backtick_bookmark [bool]" 4
 .IX Item "save_backtick_bookmark [bool]"
 Save the \f(CW\*(C`\`\*(C'\fR bookmark to disk.  This bookmark is used to switch to the last
@@ -1220,7 +1224,7 @@ ranger.  For your convenience, this is a list of the "public" commands including
 .PP
 .Vb 10
 \& alias [newcommand] [oldcommand]
-\& bulkrename
+\& bulkrename [\-FLAGS...]
 \& cd [path]
 \& chain command1[; command2[; command3...]]
 \& chmod octal_number
@@ -1292,14 +1296,18 @@ These are the public commands including their descriptions:
 .IP "alias [\fInewcommand\fR] [\fIoldcommand\fR]" 2
 .IX Item "alias [newcommand] [oldcommand]"
 Copies the oldcommand as newcommand.
-.IP bulkrename 2
-.IX Item "bulkrename"
+.IP "bulkrename [\-\fIflags\fR]" 2
+.IX Item "bulkrename [-flags]"
 This command opens a list of selected files in an external editor.  After you
 edit and save the file, it will generate a shell script which does bulk
 renaming according to the changes you did in the file.
 .Sp
 This shell script is opened in an editor for you to review.  After you close
 it, it will be executed.
+.Sp
+Optional flags may be supplied to control how the generated shell script is
+executed.  See the FLAGS section for details.  By default, the \f(CW\*(C`w\*(C'\fR flag is
+used.
 .IP "cd [\fIpath\fR]" 2
 .IX Item "cd [path]"
 The cd command changes the directory.  If path is a file, selects that file.
@@ -1857,10 +1865,10 @@ exists.  External programs can determine whether they were spawned from ranger
 by checking for this variable.
 .IP RANGER_LOAD_DEFAULT_RC 8
 .IX Item "RANGER_LOAD_DEFAULT_RC"
-If this variable is set to FALSE, ranger will not load the default rc.conf.
-This can save time if you copied the whole rc.conf to \fI~/.config/ranger/\fR and
-don't need the default one at all.
-.IP VISUAL 8
+If this variable is set to \s-1FALSE,\s0 ranger will not load the default \fIrc.conf\fR.
+This can save time if you copied the whole \fIrc.conf\fR to \fI~/.config/ranger/\fR
+and don't need the default one at all.
+.IP "\s-1VISUAL\s0" 8
 .IX Item "VISUAL"
 Defines the editor to be used for the "E" key.  Falls back to EDITOR if
 undefined or empty.
@@ -1897,7 +1905,8 @@ running:
 .IP HIGHLIGHT_STYLE 8
 .IX Item "HIGHLIGHT_STYLE"
 Specifies the theme to be used for syntax highlighting when \fIhighlight\fR is
-installed. Find out possible values by running \f(CW\*(C`highlight \-\-list\-themes\*(C'\fR.
+installed. Find out possible values by running
+\&\f(CW\*(C`highlight \-\-list\-scripts=themes\*(C'\fR.
 .IP HIGHLIGHT_TABWIDTH 8
 .IX Item "HIGHLIGHT_TABWIDTH"
 Specifies the number of spaces to use to replace tabs in \fIhighlight\fRed files.

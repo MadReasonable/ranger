@@ -103,9 +103,10 @@ Create copies of the default configuration files in your local configuration
 directory.  Existing ones will not be overwritten.  Possible values: I<all>,
 I<commands>, I<commands_full>, I<rc>, I<rifle>, I<scope>.
 
-Note: You may want to disable loading of the global configuration files by
-exporting I<RANGER_LOAD_DEFAULT_RC=FALSE> in your environment.  See also:
-B<FILES>, B<ENVIRONMENT>
+Note: You can disable loading of the global F<rc.conf> by exporting
+I<RANGER_LOAD_DEFAULT_RC=FALSE> in your environment. Only do so if your
+configuration is complete, as settings that are not specified will be
+undefined. See also: B<FILES>, B<ENVIRONMENT>
 
 --copy-config=B<commands> will copy only a small sample configuration file with
 a thoroughly commented example.  It is recommended to keep this file tidy to
@@ -1241,6 +1242,10 @@ the content.
 When line_numbers is set to relative, show 0 on the current line if
 true or show the absolute number of the current line when false.
 
+=item renumber_tabs_on_tab_close [bool]
+
+After closing a tab the tabs will automatically renumber if true.
+
 =item save_backtick_bookmark [bool]
 
 Save the C<`> bookmark to disk.  This bookmark is used to switch to the last
@@ -1409,7 +1414,7 @@ You can always get a list of the currently existing commands by typing "?c" in
 ranger.  For your convenience, this is a list of the "public" commands including their parameters, excluding descriptions:
 
  alias [newcommand] [oldcommand]
- bulkrename
+ bulkrename [-FLAGS...]
  cd [path]
  chain command1[; command2[; command3...]]
  chmod octal_number
@@ -1484,7 +1489,7 @@ These are the public commands including their descriptions:
 
 Copies the oldcommand as newcommand.
 
-=item bulkrename
+=item bulkrename [-I<flags>]
 
 This command opens a list of selected files in an external editor.  After you
 edit and save the file, it will generate a shell script which does bulk
@@ -1492,6 +1497,10 @@ renaming according to the changes you did in the file.
 
 This shell script is opened in an editor for you to review.  After you close
 it, it will be executed.
+
+Optional flags may be supplied to control how the generated shell script is
+executed.  See the FLAGS section for details.  By default, the C<w> flag is
+used.
 
 =item cd [I<path>]
 
@@ -2130,9 +2139,9 @@ by checking for this variable.
 
 =item RANGER_LOAD_DEFAULT_RC
 
-If this variable is set to FALSE, ranger will not load the default rc.conf.
-This can save time if you copied the whole rc.conf to I<~/.config/ranger/> and
-don't need the default one at all.
+If this variable is set to FALSE, ranger will not load the default F<rc.conf>.
+This can save time if you copied the whole F<rc.conf> to I<~/.config/ranger/>
+and don't need the default one at all.
 
 =item VISUAL
 
@@ -2178,7 +2187,8 @@ running:
 =item HIGHLIGHT_STYLE
 
 Specifies the theme to be used for syntax highlighting when I<highlight> is
-installed. Find out possible values by running C<highlight --list-themes>.
+installed. Find out possible values by running
+C<highlight --list-scripts=themes>.
 
 =item HIGHLIGHT_TABWIDTH
 
