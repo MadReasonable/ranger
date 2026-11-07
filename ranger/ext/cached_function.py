@@ -85,8 +85,6 @@ def cached_function(fnc=None, maxsize=None, key_args=None):
                     del cache[order.pop(0)]
             return value
 
-        # pylint: disable=protected-access
-        wrapper._cache = cache  # type: ignore[reportFunctionMemberAccess]
         return wrapper
 
     if callable(fnc):
